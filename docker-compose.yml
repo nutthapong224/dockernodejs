@@ -9,6 +9,8 @@ services:
       MYSQL_DATABASE: nodejsmysql
     volumes:
       - db_data:/var/lib/mysql
+    networks:
+      - my_network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -17,6 +19,8 @@ services:
       PMA_HOST: db
     ports:
       - 8080:80
+    networks:
+      - my_network
 
   node:
     build: .
@@ -31,6 +35,12 @@ services:
       DB_USER: root
       DB_PASSWORD: nutthapong10
       DB_NAME: nodejsmysql
+    networks:
+      - my_network
 
 volumes:
   db_data:
+
+networks:
+  my_network:
+    driver: bridge
