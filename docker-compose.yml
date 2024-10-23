@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: nutthapong10
+      MYSQL_DATABASE: nodejsmysql
+    volumes:
+      - db_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: db
+    ports:
+      - 8080:80
+
+  node:
+    build: .
+    restart: always
+    volumes:
+      - .:/usr/src/app
+    working_dir: /usr/src/app
+    ports:
+      - 3000:3000
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: nutthapong10
+      DB_NAME: nodejsmysql
+
+volumes:
+  db_data:
